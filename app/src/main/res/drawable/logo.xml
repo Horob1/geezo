@@ -1,0 +1,21 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="200dp"
+    android:height="200dp"
+    android:viewportWidth="432"
+    android:viewportHeight="432">
+
+    <group
+        android:name="animationGroup"
+        android:pivotX="216"
+        android:pivotY="216"
+        android:rotation="0"
+        android:scaleX="1"
+        android:scaleY="1">
+
+        <path
+            android:fillColor="#C5FF42"
+            android:pathData="M216,340C150,340 92,282 92,216C92,150 150,92 216,92C270,92 316,128 332,178L276,178C264,150 242,134 216,134C170,134 134,170 134,216C134,262 170,298 216,298C248,298 276,278 288,248L216,248L216,206L340,206C340,274 282,340 216,340Z"/>
+    </group>
+    
+
+</vector>
