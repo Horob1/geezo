@@ -4,17 +4,14 @@
     <selectionStates>
       <SelectionState runConfigName="app">
         <option name="selectionMode" value="DROPDOWN" />
-        <DropdownSelection timestamp="2026-02-21T10:03:53.559454500Z">
+        <DropdownSelection timestamp="2026-02-23T05:08:24.105452100Z">
           <Target type="DEFAULT_BOOT">
             <handle>
-              <DeviceId pluginId="PhysicalDevice" identifier="serial=354975110166613" />
+              <DeviceId pluginId="LocalEmulator" identifier="path=C:\Users\NVCon\.android\avd\Pixel_6a.avd" />
             </handle>
           </Target>
         </DropdownSelection>
         <DialogSelection />
-      </SelectionState>
-      <SelectionState runConfigName="Effects Light - EffectShowcasePreview">
-        <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>
   </component>

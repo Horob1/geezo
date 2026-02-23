@@ -8,10 +8,10 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="PLACEHOLDER" />
-                  <option name="mobileSdkAppId" value="" />
-                  <option name="projectId" value="" />
-                  <option name="projectNumber" value="" />
+                  <option name="appId" value="com.horob1.geezo" />
+                  <option name="mobileSdkAppId" value="1:677672045648:android:01c41e485b57f7bb831555" />
+                  <option name="projectId" value="geezo-23c75" />
+                  <option name="projectNumber" value="677672045648" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />

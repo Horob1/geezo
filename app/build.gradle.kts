@@ -3,6 +3,9 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.serialization)
     alias(libs.plugins.ksp)
+    id("com.google.gms.google-services")
+    id("com.google.firebase.firebase-perf")
+    id("com.google.firebase.crashlytics")
 }
 
 android {
@@ -43,6 +46,13 @@ android {
 }
 
 dependencies {
+    //firebase
+    implementation(libs.google.firebase.auth)
+    implementation(libs.firebase.firestore)
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.perf)
+    implementation(libs.firebase.crashlytics)
+    implementation(libs.google.firebase.analytics)
     // Room
     implementation(libs.room.runtime)
     implementation(libs.room.ktx)
