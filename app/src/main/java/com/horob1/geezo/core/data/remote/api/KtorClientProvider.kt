@@ -14,6 +14,7 @@ import okhttp3.Response
 import okio.Buffer
 
 class KtorClientProvider(
+    // repo
     private val networkLogDao: NetworkLogDao
 ) {
 
@@ -110,3 +111,6 @@ class KtorClientProvider(
         }
     }
 }
+
+// flow trc khi gui request => tao ra 1 log (pending)
+// sau khi co response => update no lai

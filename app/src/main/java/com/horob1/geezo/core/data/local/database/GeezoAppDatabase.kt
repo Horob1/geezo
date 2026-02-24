@@ -13,6 +13,5 @@ import com.horob1.geezo.core.data.local.database.entity.NetworkLogEntity
     exportSchema = true
 )
 abstract class GeezoAppDatabase : RoomDatabase() {
-
     abstract fun networkLogDao(): NetworkLogDao
 }

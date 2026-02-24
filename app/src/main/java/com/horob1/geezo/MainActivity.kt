@@ -11,6 +11,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectDragGestures
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -23,6 +24,7 @@ import androidx.compose.material.icons.filled.Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -53,7 +55,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // animation splash screen
-         installSplashScreen().apply {
+        installSplashScreen().apply {
             setKeepOnScreenCondition { !isReady }
             setOnExitAnimationListener { screen ->
                 val zoomX = ObjectAnimator.ofFloat(
@@ -113,6 +115,7 @@ fun GeezoComposeApp(onReady: () -> Unit) {
         }
     }
 }
+
 @SuppressLint("ConfigurationScreenWidthHeight")
 @Composable
 fun DebugGestureOverlay(onOpenDebug: () -> Unit) {
@@ -124,7 +127,11 @@ fun DebugGestureOverlay(onOpenDebug: () -> Unit) {
     val screenWidthPx = with(density) { configuration.screenWidthDp.dp.toPx() }
     val screenHeightPx = with(density) { configuration.screenHeightDp.dp.toPx() }
 
-    Box(modifier = Modifier.fillMaxSize().zIndex(999f)) {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .zIndex(999f)
+    ) {
         DebugFloatingButton(
             initialOffset = Offset(screenWidthPx - 250f, screenHeightPx - 250f),
             screenWidthPx = screenWidthPx,
@@ -159,6 +166,12 @@ private fun DebugFloatingButton(
             .clickable { onClick() },
         contentAlignment = Alignment.Center
     ) {
-        Icon(Icons.Default.Api, tint = GeezoColor.OnPrimary, contentDescription = "Debug")
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(MaterialTheme.dimens.s1)
+        ) {
+            Icon(Icons.Default.Api, tint = GeezoColor.OnPrimary, contentDescription = "Debug")
+            Text("0", color = GeezoColor.OnPrimary)
+        }
     }
 }
