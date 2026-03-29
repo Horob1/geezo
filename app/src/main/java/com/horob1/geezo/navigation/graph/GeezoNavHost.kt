@@ -11,6 +11,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.horob1.geezo.api_debug.navigation.ApiDebugNavHost
+import com.horob1.geezo.auth.navigation.AuthNavHost
 import com.horob1.geezo.main.MainScreen
 import com.horob1.geezo.navigation.Routes
 import com.horob1.geezo.onboarding.navigation.OnboardingNavHost
@@ -56,8 +57,45 @@ fun GeezoNavHost(
             OnboardingNavHost(
                 onFinishModule = {
                     onOnboardingCompleted()
-                    navController.navigate(Routes.Main) {
+                    navController.navigate(Routes.Auth) {
                         popUpTo(Routes.OnBoarding) { inclusive = true }
+                        launchSingleTop = true
+                    }
+                }
+            )
+        }
+
+        composable<Routes.Auth>(
+            enterTransition = {
+                slideInHorizontally(
+                    initialOffsetX = { fullWidth -> fullWidth / 3 },
+                    animationSpec = tween(NAV_ANIMATION_DURATION_MS)
+                ) + fadeIn(animationSpec = tween(NAV_ANIMATION_DURATION_MS))
+            },
+            exitTransition = {
+                slideOutHorizontally(
+                    targetOffsetX = { fullWidth -> fullWidth / 3 },
+                    animationSpec = tween(NAV_ANIMATION_DURATION_MS)
+                ) + fadeOut(animationSpec = tween(NAV_ANIMATION_DURATION_MS))
+            },
+            popEnterTransition = {
+                slideInHorizontally(
+                    initialOffsetX = { fullWidth -> -fullWidth / 3 },
+                    animationSpec = tween(NAV_ANIMATION_DURATION_MS)
+                ) + fadeIn(animationSpec = tween(NAV_ANIMATION_DURATION_MS))
+            },
+            popExitTransition = {
+                slideOutHorizontally(
+                    targetOffsetX = { fullWidth -> fullWidth / 3 },
+                    animationSpec = tween(NAV_ANIMATION_DURATION_MS)
+                ) + fadeOut(animationSpec = tween(NAV_ANIMATION_DURATION_MS))
+            }
+        ) {
+            AuthNavHost(
+                onExitModule = { navController.popBackStack() },
+                onAuthSuccess = {
+                    navController.navigate(Routes.Main) {
+                        popUpTo(Routes.Auth) { inclusive = true }
                         launchSingleTop = true
                     }
                 }
