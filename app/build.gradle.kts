@@ -69,9 +69,6 @@ dependencies {
     implementation(libs.koin.androidx.compose)
     implementation(libs.koin.androidx.workmanager)
     testImplementation(libs.koin.test)
-    implementation(libs.koin.annotations)
-    ksp(libs.koin.ksp.compiler)
-
     // Ktor
     implementation(platform(libs.ktor.bom))
 
@@ -132,8 +129,4 @@ dependencies {
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
-}
-
-ksp {
-    arg("KOIN_CONFIG_CHECK","true")
 }

@@ -1,24 +1,23 @@
 package com.horob1.geezo.core.data.remote.api
 
 import android.util.Log
-import com.horob1.geezo.core.data.local.database.dao.NetworkLogDao
-import com.horob1.geezo.core.data.local.database.entity.NetworkLogEntity
+import com.horob1.geezo.core.domain.model.NetworkLog
+import com.horob1.geezo.core.domain.repository.NetworkLogRepository
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.okhttp.OkHttp
 import io.ktor.client.plugins.defaultRequest
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import okhttp3.Interceptor
 import okhttp3.Response
 import okio.Buffer
 
 class KtorClientProvider(
-    // repo
-    private val networkLogDao: NetworkLogDao
+    private val networkLogRepository: NetworkLogRepository,
+    private val environment: String? = null,
+    private val tag: String? = null,
+    private val isMock: Boolean = false
 ) {
-
-    private val ioScope = CoroutineScope(Dispatchers.IO)
 
     val client: HttpClient = HttpClient(OkHttp) {
         defaultRequest {
@@ -32,85 +31,181 @@ class KtorClientProvider(
 
     private fun createLoggingInterceptor() = Interceptor { chain ->
         val request = chain.request()
+        val startTime = System.currentTimeMillis()
 
         val url = request.url.toString()
         val method = request.method
         val requestHeaders = request.headers.toString()
+        val requestBodyText = readRequestBody(request)
+        val requestSize = requestBodyText?.toByteArray(Charsets.UTF_8)?.size?.toLong()
+        val curlCommand = buildCurlCommand(
+            method = method,
+            url = url,
+            headers = request.headers.toMultimap(),
+            body = requestBodyText
+        )
 
-        val requestBodyText = try {
-            request.body?.let {
-                val buffer = Buffer()
-                it.writeTo(buffer)
-                buffer.readUtf8()
-            } ?: ""
-        } catch (e: Exception) {
-            "Error reading request payload"
-        }
+        val pendingLog = NetworkLog(
+            id = 0L,
+            url = url,
+            method = method,
+            requestHeaders = requestHeaders,
+            requestBody = requestBodyText,
+            responseCode = null,
+            responseHeaders = null,
+            responseBody = null,
+            errorMessage = null,
+            isSuccess = false,
+            startTime = startTime,
+            endTime = null,
+            durationMs = null,
+            requestSize = requestSize,
+            responseSize = null,
+            environment = environment,
+            tag = tag,
+            curl = curlCommand,
+            isMock = isMock,
+            createdAt = startTime
+        )
 
-        val response: Response = try {
-            chain.proceed(request)
+        val logId = insertPendingLog(pendingLog)
+
+        try {
+            val response = chain.proceed(request)
+            val endTime = System.currentTimeMillis()
+            val duration = endTime - startTime
+
+            val responseCode = response.code
+            val responseHeaders = response.headers.toString()
+            val responseBodyText = readResponseBody(response)
+            val responseSize = response.body.contentLength().takeIf { it >= 0 }
+                ?: responseBodyText?.toByteArray(Charsets.UTF_8)?.size?.toLong()
+            val success = response.isSuccessful
+
+            updateLog(
+                source = pendingLog,
+                id = logId,
+                responseCode = responseCode,
+                responseHeaders = responseHeaders,
+                responseBody = responseBodyText,
+                errorMessage = if (success) null else "HTTP $responseCode",
+                isSuccess = success,
+                endTime = endTime,
+                durationMs = duration,
+                responseSize = responseSize
+            )
+
+            response
         } catch (e: Exception) {
-            saveLogToRoom(
-                url = url,
-                method = method,
-                reqHeaders = requestHeaders,
-                reqBody = requestBodyText,
-                resCode = 0,
-                resHeaders = "",
-                resBody = e.message ?: "Unknown Network Error"
+            val endTime = System.currentTimeMillis()
+            val duration = endTime - startTime
+
+            updateLog(
+                source = pendingLog,
+                id = logId,
+                responseCode = null,
+                responseHeaders = null,
+                responseBody = null,
+                errorMessage = e.message ?: "Unknown network error",
+                isSuccess = false,
+                endTime = endTime,
+                durationMs = duration,
+                responseSize = null
             )
             throw e
         }
+    }
 
-        val responseCode = response.code
-        val responseHeaders = response.headers.toString()
+    private fun readRequestBody(request: okhttp3.Request): String? = try {
+        val buffer = Buffer()
+        request.body?.writeTo(buffer)
+        buffer.readUtf8().ifBlank { null }
+    } catch (_: Exception) {
+        "Error reading request payload"
+    }
 
-        val responseBodyText = try {
-            response.peekBody(1024 * 1024L).string()
+    private fun readResponseBody(response: Response): String? = try {
+        response.peekBody(MAX_LOG_BODY_BYTES).string().ifBlank { null }
+    } catch (_: Exception) {
+        "Error reading response body"
+    }
+
+    private fun insertPendingLog(log: NetworkLog): Long {
+        return try {
+            runBlocking(Dispatchers.IO) {
+                networkLogRepository.insertLog(log).getOrElse { throw it }
+            }
         } catch (e: Exception) {
-            "Error reading response body"
+            Log.e("NetworkInspector", "Error inserting pending log", e)
+            0L
         }
+    }
 
-        saveLogToRoom(
-            url = url,
-            method = method,
-            reqHeaders = requestHeaders,
-            reqBody = requestBodyText,
-            resCode = responseCode,
-            resHeaders = responseHeaders,
-            resBody = responseBodyText
+    private fun updateLog(
+        source: NetworkLog,
+        id: Long,
+        responseCode: Int?,
+        responseHeaders: String?,
+        responseBody: String?,
+        errorMessage: String?,
+        isSuccess: Boolean,
+        endTime: Long,
+        durationMs: Long,
+        responseSize: Long?
+    ) {
+        if (id <= 0L) return
+
+        val updated = source.copy(
+            id = id,
+            responseCode = responseCode,
+            responseHeaders = responseHeaders,
+            responseBody = responseBody,
+            errorMessage = errorMessage,
+            isSuccess = isSuccess,
+            endTime = endTime,
+            durationMs = durationMs,
+            responseSize = responseSize
         )
 
-        response
-    }
-
-    private fun saveLogToRoom(
-        url: String,
-        method: String,
-        reqHeaders: String,
-        reqBody: String,
-        resCode: Int,
-        resHeaders: String,
-        resBody: String
-    ) {
-        ioScope.launch {
-            try {
-                val log = NetworkLogEntity(
-                    url = url,
-                    method = method,
-                    requestHeaders = reqHeaders,
-                    requestBody = reqBody,
-                    responseCode = resCode,
-                    responseHeaders = resHeaders,
-                    responseBody = resBody
-                )
-                networkLogDao.insertLog(log)
-            } catch (e: Exception) {
-                Log.e("NetworkInspector", "Error saving log to DB", e)
+        try {
+            runBlocking(Dispatchers.IO) {
+                networkLogRepository.updateLog(updated).getOrElse { throw it }
             }
+        } catch (e: Exception) {
+            Log.e("NetworkInspector", "Error updating log", e)
         }
     }
-}
 
-// flow trc khi gui request => tao ra 1 log (pending)
-// sau khi co response => update no lai
+    private fun buildCurlCommand(
+        method: String,
+        url: String,
+        headers: Map<String, List<String>>,
+        body: String?
+    ): String {
+        val parts = mutableListOf<String>()
+        parts += "curl"
+        parts += "-X"
+        parts += "\"$method\""
+
+        headers.forEach { (name, values) ->
+            values.forEach { value ->
+                val escaped = value.replace("\"", "\\\"")
+                parts += "-H"
+                parts += "\"$name: $escaped\""
+            }
+        }
+
+        if (!body.isNullOrBlank()) {
+            val escapedBody = body.replace("\"", "\\\"")
+            parts += "--data"
+            parts += "\"$escapedBody\""
+        }
+
+        parts += "\"$url\""
+        return parts.joinToString(" ")
+    }
+
+    companion object {
+        private const val MAX_LOG_BODY_BYTES = 1024 * 1024L
+    }
+}

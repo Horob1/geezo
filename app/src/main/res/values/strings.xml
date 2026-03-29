@@ -1,3 +1,58 @@
 <resources>
     <string name="app_name">Geezo</string>
+
+    <string name="common_back">Back</string>
+    <string name="common_cancel">Cancel</string>
+    <string name="common_delete">Delete</string>
+
+    <string name="api_debug_title">API Debug</string>
+    <string name="api_debug_reload">Reload</string>
+    <string name="api_debug_delete_all">Delete all</string>
+    <string name="api_debug_total_logs">Total Logs: %1$d</string>
+    <string name="api_debug_success_logs">Success Logs: %1$d</string>
+    <string name="api_debug_no_logs">No logs</string>
+    <string name="api_debug_all_methods">All</string>
+    <string name="api_debug_delete_all_title">Delete all logs?</string>
+    <string name="api_debug_delete_all_message">This action cannot be undone.</string>
+    <string name="api_debug_status_success">Success</string>
+    <string name="api_debug_status_error">Error</string>
+    <string name="api_debug_duration_ms">%1$d ms</string>
+
+    <string name="api_debug_detail_title">Log Detail</string>
+    <string name="api_debug_detail_tab_headers">Headers</string>
+    <string name="api_debug_detail_tab_payload">Payload</string>
+    <string name="api_debug_detail_tab_response">Response</string>
+    <string name="api_debug_detail_copy_curl">Copy cURL</string>
+    <string name="api_debug_detail_copy_response">Copy response</string>
+    <string name="api_debug_detail_not_found">Log not found</string>
+    <string name="api_debug_detail_general">General</string>
+    <string name="api_debug_detail_label_method">Method</string>
+    <string name="api_debug_detail_label_url">URL</string>
+    <string name="api_debug_detail_label_status">Status</string>
+    <string name="api_debug_detail_label_code">Code</string>
+    <string name="api_debug_detail_label_duration">Duration</string>
+    <string name="api_debug_detail_label_request_size">Request size</string>
+    <string name="api_debug_detail_label_response_size">Response size</string>
+    <string name="api_debug_detail_label_environment">Environment</string>
+    <string name="api_debug_detail_label_tag">Tag</string>
+    <string name="api_debug_detail_request_headers">Request Headers</string>
+    <string name="api_debug_detail_response_headers">Response Headers</string>
+    <string name="api_debug_detail_no_request_headers">No request headers</string>
+    <string name="api_debug_detail_no_response_headers">No response headers</string>
+    <string name="api_debug_detail_no_payload">No payload</string>
+    <string name="api_debug_detail_no_response_body">No response body</string>
+
+    <string name="onboarding_image_1_cd">Onboarding image 1</string>
+    <string name="onboarding_image_2_cd">Onboarding image 2</string>
+    <string name="onboarding_image_3_cd">Onboarding image 3</string>
+    <string name="onboarding_image_4_cd">Onboarding image 4</string>
+    <string name="onboarding_title_1">WELCOME TO
+GEEZ APP</string>
+    <string name="onboarding_desc_1">Your all-in-one music space to explore, enjoy, and feel every beat</string>
+    <string name="onboarding_title_2">Endless Music</string>
+    <string name="onboarding_desc_2">Discover millions of songs tailored to your taste anytime, anywhere</string>
+    <string name="onboarding_title_3">Your Vibe</string>
+    <string name="onboarding_desc_3">Get personalized playlists that match your mood and daily moments</string>
+    <string name="onboarding_brand">GEEZ</string>
+    <string name="onboarding_get_started">GET STARTED</string>
 </resources>

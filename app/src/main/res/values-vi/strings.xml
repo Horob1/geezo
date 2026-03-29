@@ -1,0 +1,58 @@
+<resources>
+    <string name="app_name">Geezo</string>
+
+    <string name="common_back">Quay lại</string>
+    <string name="common_cancel">Hủy bỏ</string>
+    <string name="common_delete">Xóa</string>
+
+    <string name="api_debug_title">Gỡ lỗi API</string>
+    <string name="api_debug_reload">Tải lại</string>
+    <string name="api_debug_delete_all">Xóa tất cả</string>
+    <string name="api_debug_total_logs">Tổng nhật ký: %1$d</string>
+    <string name="api_debug_success_logs">Nhật ký thành công: %1$d</string>
+    <string name="api_debug_no_logs">Không có nhật ký</string>
+    <string name="api_debug_all_methods">Tất cả</string>
+    <string name="api_debug_delete_all_title">Xóa tất cả nhật ký\?</string>
+    <string name="api_debug_delete_all_message">Hành động này không thể hoàn tác.</string>
+    <string name="api_debug_status_success">Thành công</string>
+    <string name="api_debug_status_error">lỗi</string>
+    <string name="api_debug_duration_ms">%1$d mili giây</string>
+
+    <string name="api_debug_detail_title">Chi tiết nhật ký</string>
+    <string name="api_debug_detail_tab_headers">Tiêu đề</string>
+    <string name="api_debug_detail_tab_payload">Tải trọng</string>
+    <string name="api_debug_detail_tab_response">Câu trả lời</string>
+    <string name="api_debug_detail_copy_curl">Sao chép cURL</string>
+    <string name="api_debug_detail_copy_response">Sao chép phản hồi</string>
+    <string name="api_debug_detail_not_found">Không tìm thấy nhật ký</string>
+    <string name="api_debug_detail_general">Tổng Quát</string>
+    <string name="api_debug_detail_label_method">Phương pháp</string>
+    <string name="api_debug_detail_label_url">URL</string>
+    <string name="api_debug_detail_label_status">Trạng thái</string>
+    <string name="api_debug_detail_label_code">Mã</string>
+    <string name="api_debug_detail_label_duration">Độ dài khóa học</string>
+    <string name="api_debug_detail_label_request_size">Kích thước yêu cầu</string>
+    <string name="api_debug_detail_label_response_size">Kích thước phản hồi</string>
+    <string name="api_debug_detail_label_environment">Môi trường</string>
+    <string name="api_debug_detail_label_tag">Ngày</string>
+    <string name="api_debug_detail_request_headers">Tiêu đề yêu cầu</string>
+    <string name="api_debug_detail_response_headers">Tiêu đề phản hồi</string>
+    <string name="api_debug_detail_no_request_headers">Không có tiêu đề yêu cầu</string>
+    <string name="api_debug_detail_no_response_headers">Không có tiêu đề phản hồi</string>
+    <string name="api_debug_detail_no_payload">Không tải trọng</string>
+    <string name="api_debug_detail_no_response_body">Không có nội dung phản hồi</string>
+
+    <string name="onboarding_image_1_cd">Hình ảnh giới thiệu 1</string>
+    <string name="onboarding_image_2_cd">Hình ảnh giới thiệu 2</string>
+    <string name="onboarding_image_3_cd">Hình ảnh giới thiệu 3</string>
+    <string name="onboarding_image_4_cd">Hình ảnh giới thiệu 4</string>
+    <string name="onboarding_title_1">CHÀO MỪNG BẠN ĐẾN VỚI
+ỨNG DỤNG GEEZ</string>
+    <string name="onboarding_desc_1">Không gian âm nhạc tất cả trong một của bạn để khám phá, thưởng thức và cảm nhận từng nhịp điệu</string>
+    <string name="onboarding_title_2">Âm nhạc bất tận</string>
+    <string name="onboarding_desc_2">Khám phá hàng triệu bài hát phù hợp với sở thích của bạn mọi lúc, mọi nơi</string>
+    <string name="onboarding_title_3">Sự rung cảm của bạn</string>
+    <string name="onboarding_desc_3">Nhận danh sách phát được cá nhân hóa phù hợp với tâm trạng và khoảnh khắc hàng ngày của bạn</string>
+    <string name="onboarding_brand">GEEZ</string>
+    <string name="onboarding_get_started">BẮT ĐẦU</string>
+</resources>

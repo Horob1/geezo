@@ -2,34 +2,44 @@ package com.horob1.geezo.core.data.local.database.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import androidx.room.ColumnInfo
 
 @Entity(tableName = "network_logs")
 data class NetworkLogEntity(
+
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0L,
 
-    @ColumnInfo(name = "url")
+    // 🔹 Request
     val url: String,
-
-    @ColumnInfo(name = "method")
     val method: String,
 
-    @ColumnInfo(name = "request_headers")
-    val requestHeaders: String,
-
-    @ColumnInfo(name = "request_body")
+    val requestHeaders: String?,
     val requestBody: String?,
 
-    @ColumnInfo(name = "response_code")
+    // 🔹 Response
     val responseCode: Int?,
-
-    @ColumnInfo(name = "response_headers")
     val responseHeaders: String?,
-
-    @ColumnInfo(name = "response_body")
     val responseBody: String?,
 
-    @ColumnInfo(name = "created_at")
+    // 🔹 Error
+    val errorMessage: String?,
+    val isSuccess: Boolean,
+
+    // 🔹 Time tracking
+    val startTime: Long,
+    val endTime: Long?,
+    val durationMs: Long?,
+
+    // 🔹 Size (debug performance)
+    val requestSize: Long?,   // bytes
+    val responseSize: Long?,  // bytes
+
+    // 🔹 Extra metadata
+    val environment: String?, // dev / staging / prod
+    val tag: String?,         // feature/module
+    val curl: String?,
+    val isMock: Boolean = false,
+
+    // 🔹 Created
     val createdAt: Long = System.currentTimeMillis()
 )

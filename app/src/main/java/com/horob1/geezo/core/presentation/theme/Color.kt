@@ -53,4 +53,8 @@ object GeezoColor {
     val NeonBorder = Color(0xFFE0F1A0)     // #E0F1A0 - 100%
     val TealShadow = Color(0xFF522E5B)     // #522E5B - 100%
     val StrongShadow = Color(0x66000000)   // #000000 - 40%
+
+    // Gray light
+    val Gray1 = Color(0xFFEEEEEE)
+    val Gray2 = Color(0xFF71737B)
 }

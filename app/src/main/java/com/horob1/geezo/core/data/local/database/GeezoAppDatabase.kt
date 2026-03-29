@@ -9,7 +9,7 @@ import com.horob1.geezo.core.data.local.database.entity.NetworkLogEntity
     entities = [
         NetworkLogEntity::class
     ],
-    version = 1,
+    version = 2,
     exportSchema = true
 )
 abstract class GeezoAppDatabase : RoomDatabase() {
